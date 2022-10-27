@@ -1,5 +1,7 @@
 $(function(){
-    const socket = io();
+    const socket = io("https://sicronia-api.vercel.app:3000/",{
+        transports: ['websocket'],
+       });
     var nick = '';
 
     //Obtenemos los elementos del DOM

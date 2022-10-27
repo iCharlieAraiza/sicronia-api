@@ -1,5 +1,7 @@
 $(function(){
-    const socket = io();
+    const socket = io("//url",{
+        transports: ['websocket'],
+       });
     var nick = '';
 
     //Obtenemos los elementos del DOM
