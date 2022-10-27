@@ -1,86 +1,90 @@
-$(function(){
-    const socket = io("https://sicronia-api.vercel.app/",{
-        transports: ['websocket'],
-       });
-    var nick = '';
+const chatForm = document.getElementById('chat-form');
+const chatMessages = document.querySelector('.chat-messages');
+const roomName = document.getElementById('room-name');
+const userList = document.getElementById('users');
 
-    //Obtenemos los elementos del DOM
-    
-    const messageForm = $('#messages-form');
-    const messageBox = $('#message');
-    const chat = $('#chat');
+// Get username and room from URL
+const { username, room } = Qs.parse(location.search, {
+  ignoreQueryPrefix: true,
+});
 
-    const nickForm = $('#nick-form');
-    const nickError = $('#nick-error');
-    const nickName = $('#nick-name');
+const socket = io();
 
-    const userNames = $('#usernames');
+// Join chatroom
+socket.emit('joinRoom', { username, room });
 
-    //Eventos
+// Get room and users
+socket.on('roomUsers', ({ room, users }) => {
+  outputRoomName(room);
+  outputUsers(users);
+});
 
-    messageForm.submit( e =>{
-        //Evitamos que se recargue la pantalla:
-        e.preventDefault();
-        //Enviamos el evento que debe recibir el servidor:
-        socket.emit('enviar mensaje', messageBox.val());
-        //Limpiamos el input
-        messageBox.val('');
-    });
+// Message from server
+socket.on('message', (message) => {
+  console.log(message);
+  outputMessage(message);
 
-    //Obtenemos respuesta del servidor:
-    socket.on('nuevo mensaje', function(datos){
-        let color = '#f5f4f4';
-        if(nick == datos.nick){
-            color = '#9ff4c5';
-        }
-        
-        chat.append(`
-        <div class="msg-area mb-2" style="background-color:${color}">
-            <p class="msg"><b>${datos.nick} :</b> ${datos.msg}</p>
-        </div>
-        `);
+  // Scroll down
+  chatMessages.scrollTop = chatMessages.scrollHeight;
+});
 
-    });
+// Message submit
+chatForm.addEventListener('submit', (e) => {
+  e.preventDefault();
 
+  // Get message text
+  let msg = e.target.elements.msg.value;
 
-    nickForm.submit( e =>{
-        e.preventDefault();
-        console.log('Enviando...');
-        socket.emit('nuevo usuario', nickName.val(), datos =>{
-            if(datos){
-                nick = nickName.val();
-                $('#nick-wrap').hide();
-                $('#content-wrap').show();
-            }else{
-                nickError.html(`
-                <div class="alert alert-danger">
-                El usuario ya existe
-                </div>
-                `); 
-            }
-            nickName.val('');
-        });
+  msg = msg.trim();
 
-    });
+  if (!msg) {
+    return false;
+  }
 
-    //Obtenemos el array de usuarios de sockets.js
-    socket.on('usernames', datos =>{
-        let html = '';
-        let color = '#000';
-        let salir = '';
-        console.log(nick);
-        for(let i = 0; i < datos.length; i++){
-            if(nick == datos[i]){
-                color = '#027f43';
-                salir = `<a class="enlace-salir" href="/"><i class="fas fa-sign-out-alt salir"></i></a>`;
-            }else{
-                color = '#000';
-                salir = '';
-            }
-            html += `<p style="color:${color}"><i class="fas fa-user"></i> ${datos[i]} ${salir}</p>`;
-        }
+  // Emit message to server
+  socket.emit('chatMessage', msg);
 
-        userNames.html(html);
-    });
+  // Clear input
+  e.target.elements.msg.value = '';
+  e.target.elements.msg.focus();
+});
 
+// Output message to DOM
+function outputMessage(message) {
+  const div = document.createElement('div');
+  div.classList.add('message');
+  const p = document.createElement('p');
+  p.classList.add('meta');
+  p.innerText = message.username;
+  p.innerHTML += `<span>${message.time}</span>`;
+  div.appendChild(p);
+  const para = document.createElement('p');
+  para.classList.add('text');
+  para.innerText = message.text;
+  div.appendChild(para);
+  document.querySelector('.chat-messages').appendChild(div);
+}
+
+// Add room name to DOM
+function outputRoomName(room) {
+  roomName.innerText = room;
+}
+
+// Add users to DOM
+function outputUsers(users) {
+  userList.innerHTML = '';
+  users.forEach((user) => {
+    const li = document.createElement('li');
+    li.innerText = user.username;
+    userList.appendChild(li);
+  });
+}
+
+//Prompt the user before leave chat room
+document.getElementById('leave-btn').addEventListener('click', () => {
+  const leaveRoom = confirm('Are you sure you want to leave the chatroom?');
+  if (leaveRoom) {
+    window.location = '../index.html';
+  } else {
+  }
 });

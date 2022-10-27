@@ -1,5 +1,5 @@
 $(function(){
-    const socket = io("https://sicronia-api.vercel.app/",{
+    const socket = io("wss://sicronia-api.vercel.app",{
         transports: ['websocket'],
        });
     var nick = '';
