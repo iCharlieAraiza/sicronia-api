@@ -8,7 +8,7 @@ const { username, room } = Qs.parse(location.search, {
   ignoreQueryPrefix: true,
 });
 
-const socket = io("ws://sicronia-api.vercel.app/", {
+const socket = io("wss://sicronia-api.vercel.app/", {
     transports: ["websocket"]
   });
 
