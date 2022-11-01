@@ -1,3 +1,4 @@
+/*
 const path = require("path");
 const http = require("http");
 const express = require("express");
@@ -81,6 +82,43 @@ io.on("connection", (socket) => {
     }
   });
 });
+
+const PORT = process.env.PORT || 3000;
+
+server.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+*/
+
+require("dotenv").config();
+
+const path = require("path");
+const http = require("http");
+const express = require("express");
+const app = express();
+
+const server = http.createServer(app);
+
+app.use(express.static(path.join(__dirname, "public")));
+
+app.get('/play', (req, res) => {
+  console.log('play');
+});
+
+const Pusher = require("pusher");
+
+const pusher = new Pusher({
+  appId: process.env.APP_ID,
+  key: process.env.KEY,
+  secret: process.env.SECRET,
+  cluster: process.env.CLUSTER,
+  encrypted: true,
+});
+
+setTimeout(() => {
+  pusher.trigger("private-my-channel", "my-event", {
+    message: "Play!!!!!",
+  });
+}, 15000);
+
 
 const PORT = process.env.PORT || 3000;
 

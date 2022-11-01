@@ -1,49 +1,121 @@
 <!DOCTYPE html>
-<html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<meta http-equiv="X-UA-Compatible" content="ie=edge" />
-		<link
-			rel="stylesheet"
-			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css"
-			integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk="
-			crossorigin="anonymous"
-		/>
-		<link rel="stylesheet" href="css/style.css" />
-		<title>ChatCord App</title>
-	</head>
-	<body>
-		<div class="join-container">
-			<header class="join-header">
-				<h1><i class="fas fa-smile"></i> ChatCord</h1>
-			</header>
-			<main class="join-main">
-				<form action="chat.html">
-					<div class="form-control">
-						<label for="username">Username</label>
-						<input
-							type="text"
-							name="username"
-							id="username"
-							placeholder="Enter username..."
-							required
-						/>
-					</div>
-					<div class="form-control">
-						<label for="room">Room</label>
-						<select name="room" id="room">
-							<option value="JavaScript">JavaScript</option>
-							<option value="Python">Python</option>
-							<option value="PHP">PHP</option>
-							<option value="C#">C#</option>
-							<option value="Ruby">Ruby</option>
-							<option value="Java">Java</option>
-						</select>
-					</div>
-					<button type="submit" class="btn">Join Chat</button>
-				</form>
-			</main>
-		</div>
-	</body>
-</html>
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Pusher Test</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    * {
+      font-family: 'Inter', sans-serif;
+    }
+
+    .play-section {
+      display: flex;
+      gap: 10px;
+    }
+
+    .room__header-title {
+      color: #9c9c9c;
+      font-size: 26px;
+      font-weight: 400;
+    }
+
+    .room__header-tag {
+      text-transform: uppercase;
+      font-weight: bolder;
+    }
+
+    .button-rounded {
+      border-radius: 24px;
+    }
+
+    .button {
+      display: flex;
+      align-items: center;
+      border: none;
+      width: fit-content;
+      background-color: #e8e8e8;
+      padding: 7px 0px;
+      cursor: pointer;
+      box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+    }
+
+    .button#play {
+      padding-left: 1rem;
+      padding-right: 1rem;
+    }
+
+    .button:hover {
+      background-color: #e0e0e0;
+    }
+
+    .button__text {
+      text-transform: uppercase;
+      font-weight: 500;
+      margin: 0 1rem;
+      font-size: 15px;
+    }
+
+    .button__icon {
+      width: 30px;
+    }
+    
+    .list__title {
+      text-transform: uppercase;
+      font-size: 16px;
+    }
+  </style>
+</head>
+
+<body>
+  <h1 class="room__header-title"> <span class="room__header-tag">sala: 10</span> Pusher Test</h1>
+  <p>
+    Try publishing an event to channel <code>my-channel</code>
+    with event name <code>my-event</code>.
+  <div class="play-section d-flex">
+    <button id="play" class="button button-rounded">
+      <span class="button__icon">
+        <picture>
+          <source srcset="assets/play.svg" type="image/svg+xml">
+          <img src="assets/play.svg" class="button__icon" alt="Play icon">
+        </picture>
+      </span>
+      <span class="button__text">Reproducir</span>
+    </button>
+    <button class="button button-rounded">
+      <span class="button__text">
+        :
+      </span>
+    </button>  
+  </div>
+  <h3 class="list__title">Asignar canales</h3>
+  </p>
+  <script src="https://js.pusher.com/7.2/pusher.min.js"></script>
+  <script>
+
+    /*
+
+    // Enable pusher logging - don't include this in production
+    Pusher.logToConsole = true;
+
+    var pusher = new Pusher('7b2592ec3667310a5f51', {
+      cluster: 'us2'
+    });
+
+    var channel = pusher.subscribe('my-channel');
+    const play = document.querySelector('#play');
+    */
+
+    play.onclick = function (e) {
+      e.preventDefault();
+      fetch('http://localhost:3000/play')
+        .catch(err => console.log(err));
+    }
+
+    channel.bind('my-event', function (data) {
+      alert(JSON.stringify(data));
+    });
+  </script>
+</body>
