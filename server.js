@@ -101,6 +101,9 @@ app.use(express.static(path.join(__dirname, "public")));
 
 app.get('/play', (req, res) => {
   console.log('play');
+  pusher.trigger("my-channel", "my-event", {
+    message: "play",
+  });
 });
 
 const Pusher = require("pusher");
@@ -112,13 +115,6 @@ const pusher = new Pusher({
   cluster: process.env.CLUSTER,
   encrypted: true,
 });
-
-setTimeout(() => {
-  pusher.trigger("private-my-channel", "my-event", {
-    message: "Play!!!!!",
-  });
-}, 15000);
-
 
 const PORT = process.env.PORT || 3000;
 

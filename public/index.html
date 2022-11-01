@@ -11,9 +11,11 @@
       font-family: 'Inter', sans-serif;
     }
 
-    .play-section {
+    .section__row-button {
       display: flex;
+      flex-wrap: wrap;
       gap: 10px;
+      margin: 15px 0;
     }
 
     .room__header-title {
@@ -43,8 +45,8 @@
     }
 
     .button#play {
-      padding-left: 1rem;
-      padding-right: 1rem;
+      padding: 12px 15px;
+      background-color: #d4e1ec;
     }
 
     .button:hover {
@@ -59,12 +61,26 @@
     }
 
     .button__icon {
-      width: 30px;
+      width: 20px;
+      margin: 0 6px;
     }
-    
+
+    .button__icon picture {
+      height: 100%;
+      display: flex;
+    }
+
     .list__title {
       text-transform: uppercase;
       font-size: 16px;
+    }
+
+
+    /* Tables */
+    th {
+      font-weight: 400;
+      text-transform: uppercase;
+      color: #888888;
     }
   </style>
 </head>
@@ -74,7 +90,8 @@
   <p>
     Try publishing an event to channel <code>my-channel</code>
     with event name <code>my-event</code>.
-  <div class="play-section d-flex">
+  </p>
+  <div class="section__row-button">
     <button id="play" class="button button-rounded">
       <span class="button__icon">
         <picture>
@@ -88,10 +105,50 @@
       <span class="button__text">
         :
       </span>
-    </button>  
+    </button>
+  </div>
+  <div class="section__row-button">
+    <button class="button">
+      <div class="button__icon">
+        <picture>
+          <source srcset="assets/upload.svg" type="image/svg+xml">
+          <img src="assets/upload.svg" class="button__icon" alt="Upload icon">
+        </picture>
+      </div>
+      <span class="button__text">
+        Subir audio
+      </span>
+    </button>
+    <button class="button">
+      <div class="button__icon">
+        <picture>
+          <source srcset="assets/add.svg" type="image/svg+xml">
+          <img src="assets/add.svg" class="button__icon" alt="Add song">
+        </picture>
+      </div>
+      <span class="button__text">
+        Asignar audio
+      </span>
+    </button>
   </div>
   <h3 class="list__title">Asignar canales</h3>
-  </p>
+
+  <table>
+    <tr>
+      <th>Firstname</th>
+      <th>Lastname</th>
+    </tr>
+    <tr>
+      <td>Peter</td>
+      <td>Griffin</td>
+    </tr>
+    <tr>
+      <td>Lois</td>
+      <td>Griffin</td>
+    </tr>
+  </table>
+
+
   <script src="https://js.pusher.com/7.2/pusher.min.js"></script>
   <script>
 
@@ -106,7 +163,7 @@
 
     var channel = pusher.subscribe('my-channel');
     const play = document.querySelector('#play');
-    */
+    */ 
 
     play.onclick = function (e) {
       e.preventDefault();
@@ -114,8 +171,5 @@
         .catch(err => console.log(err));
     }
 
-    channel.bind('my-event', function (data) {
-      alert(JSON.stringify(data));
-    });
   </script>
 </body>
