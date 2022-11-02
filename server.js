@@ -99,12 +99,6 @@ const server = http.createServer(app);
 
 app.use(express.static(path.join(__dirname, "public")));
 
-app.get('/play', (req, res) => {
-  console.log('play');
-  pusher.trigger("my-channel", "my-event", {
-    message: "play",
-  });
-});
 
 const Pusher = require("pusher");
 
@@ -114,6 +108,14 @@ const pusher = new Pusher({
   secret: process.env.SECRET,
   cluster: process.env.CLUSTER,
   encrypted: true,
+});
+
+app.get('/play', (req, res) => {
+  console.log('play');
+  pusher.trigger("my-channel", "my-event", {
+    message: "play",
+  });
+  return res.send('Received a GET HTTP method: Play');
 });
 
 const PORT = process.env.PORT || 3000;
