@@ -5,10 +5,85 @@
   <title>Pusher Test</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
   <style>
+    /*
+      General styles
+    */
+
     * {
       font-family: 'Inter', sans-serif;
+    }
+
+    a {
+      color: #4B9FA5;
+      text-decoration: none;
+      border-bottom: 2px dotted #4B9FA5;
+    }
+
+    body {
+      padding: 0;
+      margin: 0;
+    }
+
+    main {
+      width: 100%;
+      display: flex;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    /*
+      navbar
+    */
+
+    .logo {
+      margin: 0;
+      text-transform: uppercase;
+      color: white;
+      font-size: 28px;
+      font-weight: 600;
+      letter-spacing: -2px;
+    }
+
+    nav {
+      background-image: url("assets/navbar.svg");
+      padding: 10px;
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-position: 42% 0px;
+    }
+
+    /*
+      Sidebar
+    */
+    .sidebar {
+
+      position: absolute;
+      left: -340px;
+      z-index: 200;
+      background-color: #e6e6e6b0;
+      backdrop-filter: blur(5px);
+
+      width: 300px;
+      /*background-color: #F5F5F5;*/
+      padding: 20px;
+      height: calc(100vh - 100px);
+      background: rgb(217, 217, 217);
+      background: linear-gradient(180deg, rgba(217, 217, 217, 0.14) 0%, rgba(210, 228, 212, 0.69) 8%, rgba(251, 251, 251, 0.14) 27%, rgba(217, 217, 217, 0.1) 100%);
+    }
+
+    @media (min-width: 768px) {
+      .sidebar {
+        position: initial;
+        left: 0;
+        backdrop-filter: none;
+      }
     }
 
     .section__row-button {
@@ -19,7 +94,7 @@
     }
 
     .room__header-title {
-      color: #9c9c9c;
+      color: #606060;
       font-size: 26px;
       font-weight: 400;
     }
@@ -49,6 +124,10 @@
       background-color: #d4e1ec;
     }
 
+    .button#play:hover {
+      background-color: #c4d1dc;
+    }
+
     .button:hover {
       background-color: #e0e0e0;
     }
@@ -73,80 +152,142 @@
     .list__title {
       text-transform: uppercase;
       font-size: 16px;
+      font-weight: 500;
     }
 
 
     /* Tables */
+
+    .table-wrapper {
+      overflow: scroll;
+    }
+
     th {
       font-weight: 400;
       text-transform: uppercase;
       color: #888888;
     }
+
+    td {
+      padding: 1rem 0;
+    }
+
+    .close-button {
+      border: 2px solid #c8c8c8;
+      width: 1.5rem;
+      height: 1.5rem;
+      font-size: 22px;
+      border-radius: 50%;
+      display: flex;
+      font-weight: bold;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: #bababa;
+    }
+
+    .close-button:hover {
+      background-color: #c2c2c2;
+      color: white;
+    }
+
+    .d-right {
+      display: flex;
+      justify-content: end;
+    }
   </style>
 </head>
 
 <body>
-  <h1 class="room__header-title"> <span class="room__header-tag">sala: 10</span> Pusher Test</h1>
-  <p>
-    Try publishing an event to channel <code>my-channel</code>
-    with event name <code>my-event</code>.
-  </p>
-  <div class="section__row-button">
-    <button id="play" class="button button-rounded">
-      <span class="button__icon">
-        <picture>
-          <source srcset="assets/play.svg" type="image/svg+xml">
-          <img src="assets/play.svg" class="button__icon" alt="Play icon">
-        </picture>
-      </span>
-      <span class="button__text">Reproducir</span>
-    </button>
-    <button class="button button-rounded">
-      <span class="button__text">
-        :
-      </span>
-    </button>
-  </div>
-  <div class="section__row-button">
-    <button class="button">
-      <div class="button__icon">
-        <picture>
-          <source srcset="assets/upload.svg" type="image/svg+xml">
-          <img src="assets/upload.svg" class="button__icon" alt="Upload icon">
-        </picture>
-      </div>
-      <span class="button__text">
-        Subir audio
-      </span>
-    </button>
-    <button class="button">
-      <div class="button__icon">
-        <picture>
-          <source srcset="assets/add.svg" type="image/svg+xml">
-          <img src="assets/add.svg" class="button__icon" alt="Add song">
-        </picture>
-      </div>
-      <span class="button__text">
-        Asignar audio
-      </span>
-    </button>
-  </div>
-  <h3 class="list__title">Asignar canales</h3>
+  <nav>
+    <h1 class="logo">Sincronia</h1>
+  </nav>
 
-  <table>
-    <tr>
-      <th>Firstname</th>
-      <th>Lastname</th>
-    </tr>
-    <tr>
-      <td>Peter</td>
-      <td>Griffin</td>
-    </tr>
-    <tr>
-      <td>Lois</td>
-      <td>Griffin</td>
-    </tr>
-  </table>
+  <main>
+    <div class="sidebar">
+
+    </div>
+    <div class="row container">
+
+      <h1 class="room__header-title"> <span class="room__header-tag">sala: 10</span> Pusher Test</h1>
+      <p>
+        Try publishing an event to channel <code>my-channel</code>
+        with event name <code>my-event</code>.
+      </p>
+      <div class="section__row-button">
+        <button id="play" class="button button-rounded">
+          <span class="button__icon">
+            <picture>
+              <source srcset="assets/play.svg" type="image/svg+xml">
+              <img src="assets/play.svg" class="button__icon" alt="Play icon">
+            </picture>
+          </span>
+          <span class="button__text" id="playStatus">Reproducir</span>
+        </button>
+        <button class="button button-rounded">
+          <span class="button__text">
+            :
+          </span>
+        </button>
+      </div>
+      <div class="section__row-button">
+        <button class="button">
+          <div class="button__icon">
+            <picture>
+              <source srcset="assets/upload.svg" type="image/svg+xml">
+              <img src="assets/upload.svg" class="button__icon" alt="Upload icon">
+            </picture>
+          </div>
+          <span class="button__text">
+            Subir audio
+          </span>
+        </button>
+        <button class="button">
+          <div class="button__icon">
+            <picture>
+              <source srcset="assets/add.svg" type="image/svg+xml">
+              <img src="assets/add.svg" class="button__icon" alt="Add song">
+            </picture>
+          </div>
+          <span class="button__text">
+            Asignar audio
+          </span>
+        </button>
+      </div>
+      <h3 class="list__title">Asignar canales</h3>
+
+      <div class="table-wrapper">
+        <table>
+          <tr>
+            <th width="20"></th>
+            <th width="150" align="left">Firstname</th>
+            <th width="150" align="left">Room</th>
+            <th width="200"></th>
+          </tr>
+          <tr>
+            <td>1</td>
+            <td><a href="">1234</a></td>
+            <td>Griffin</td>
+            <td class="d-right">
+              <div class="close-button">
+                &#10540;
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td>Lois</td>
+            <td>Griffin</td>
+            <td class="d-right">
+              <div class="close-button">
+                &#10540;
+              </div>
+            </td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </main>
 
 
   <script src="https://js.pusher.com/7.2/pusher.min.js"></script>
@@ -163,15 +304,17 @@
 
     var channel = pusher.subscribe('my-channel');
     const play = document.querySelector('#play');
-    */ 
+    */
 
-    const ENDPOINT = 'http://localhost:3000/play' //'https://api-sincronia.codigohabil.com/play';
-    
+
+
+
+    const ENDPOINT = 'https://api-sincronia.codigohabil.com/play';
 
     play.onclick = function (e) {
       e.preventDefault()
       console.log('button play was clicked: API Sincronia')
-      fetch(ENDPOINT).then((response)=>{
+      fetch(ENDPOINT).then((response) => {
         console.log('API Sincronia was called:', response)
       }).catch(err => console.log(err));
     }
