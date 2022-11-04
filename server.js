@@ -118,6 +118,14 @@ app.get('/play', (req, res) => {
   return res.send('Received a GET HTTP method: Play');
 });
 
+app.get('/api/v1/room', (req, res) => {
+  console.log('room')
+  pusher.trigger("my-channel", "users", {
+    message: "user",
+  });
+  return res.send('Received a GET HTTP method: Room');
+});
+
 const PORT = process.env.PORT || 3000;
 
 server.listen(PORT, () => console.log(`Server running on port ${PORT}`));
